@@ -1,0 +1,61 @@
+<div id="TitreProjet">Details utilisateur "<%= @user.id %>"</div>
+<table>
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>E-Mail</th>
+      <th>Age</th>
+      <th>Poids actuel</th>
+      <th>Poids idéal</th>
+      <th>Taille</th>
+      <th>IMC</th>
+      <th>Actuellement en régime</th>
+      <th>Vœux de régime</th>
+      <th>C.V.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @user.name %></td>
+      <td><%= @user.mail %></td>
+      <td>
+        <%begin%>
+          <%if @user.date_of_birth.present?%>
+            <%= ((Date.today-@user.date_of_birth).to_i/365.242199).to_i %> <%= " ans" %>
+          <%end%>
+        <%rescue ArgumentError%>
+          <%# handle invalid date%>
+        <%end%>
+      </td>
+      <td><%= @user.actual_weight %> <%= "kg" %></td>
+      <td><%= @user.ideal_weight %> <%= "kg" %></td>
+      <td>
+        <%if @user.size.present?%>
+          <%= (@user.size/100).to_i %><%= "m" %><%= (@user.size%100).to_i %>
+        <%else%>
+          <%= "Indéfini" %>
+        <%end%>
+      </td>
+      <td>
+        <%if @user.actual_weight.present? && @user.size.present?%>
+          <%= (((@user.actual_weight+0.00)/(@user.size*@user.size))*10000).round() %></td>
+        <%else%>
+          <%= "Indéfini" %>
+        <%end%>
+      <td><%= bool2String @user.in_diet %></td>
+      <td><%= bool2String @user.like_diet %></td>
+      <td><% if @user.cv_url %>
+        <%= link_to @user.cv_identifier, @user.cv_url %>
+        <% else %>
+        <%= "Pas de CV, vous pouvez en ajouter un " %>
+        <%= link_to 'ici', edit_user_path(@user) %>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<br/>
+<br/>
+<%= link_to 'Editer', edit_user_path(@user) , class: "button_bottom" %>

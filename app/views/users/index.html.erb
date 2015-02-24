@@ -1,0 +1,83 @@
+<div id="TitreProjet">Liste des utilisateurs</div>
+
+<span id="button_all" class="button_bottom" style=" cursor:pointer; display:inline_block; background-color:silver;" onclick="forAll(); ">Afficher tout</span>
+<span id="button_wish" class="button_bottom" style="cursor:pointer; display:inline_block;" onclick="forWish(); ">Uniquement souhait régime</span>
+
+<div id="all">
+  <p>Liste des utilisateurs.</p>
+  <% if @users.count ==0 %>
+  <%= "Pas d'utiliseur enregistré, si vous voulez être le premier,  " %><%= link_to 'Cliquez ici', new_user_path %>
+  <% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>E-Mail</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.mail %></td>
+        <td><%= link_to 'Détails', user %></td>
+        <td><%= link_to 'Edition', edit_user_path(user) %></td>
+        <td><%= link_to "Supprimer", "users/"+user.id.to_s+"/destroy" %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+</div>
+<div id="not_in_diet_but_wish" style="display:none; ">
+  <p>Liste des utilisateurs que ne font pas de régime, mais voulant en faire un.</p>
+  <%= puts @users.where(in_diet: false)%>
+
+  <%user_not_in_diet=@users.where(in_diet: false)%>
+  <%user_like_diet=@users.where(like_diet: true)%>
+  <% if user_like_diet.count ==0 %>
+  <%= "Pas d'utilisateurs trouvé " %>
+  <% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>E-Mail</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% user_not_in_diet.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.mail %></td>
+        <td><%= link_to 'Détails', user %></td>
+        <td><%= link_to 'Edition', edit_user_path(user) %></td>
+        <td><%= link_to "Supprimer", "users/"+user.id.to_s+"/destroy" %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+</div>
+<br/>
+<br/>
+<%= link_to "Exporter au format pdf",  "users/"+1.to_s+"/pdf", class: "button_bottom"  %>
+
+<script type="text/javascript" >
+  //<![CDATA[
+  function forAll(){
+    document.getElementById('button_wish').style.backgroundColor = '#1691be';
+    document.getElementById('button_all').style.backgroundColor='silver';
+    document.getElementById('all').style.display = 'block';
+    document.getElementById('not_in_diet_but_wish').style.display = 'none';
+  }
+  function forWish(){
+    document.getElementById('button_all').style.backgroundColor = '#1691be';
+    document.getElementById('button_wish').style.backgroundColor='silver';
+    document.getElementById('all').style.display = 'none';
+    document.getElementById('not_in_diet_but_wish').style.display = 'block'
+  }
+  //]]>
+</script>

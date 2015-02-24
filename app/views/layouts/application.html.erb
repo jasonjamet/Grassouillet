@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <title>Projet Grassouillet</title>
+  <%= stylesheet_link_tag :'application', :media=>'all', 'type'=> "text/css" %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+  <div id="Color1"><div id='header'>
+    <a href='/' id="MenuTitle">Grassouillet</a></div>
+  </div>
+  <div id="menu">
+    <%= link_to 'Accueil',  pages_home_path  %><%= link_to 'Liste', users_path %><%= link_to 'Inscription', new_user_path %><%= link_to 'Graphiques',  pages_about_path  %>
+  </div>
+  <div id="blocCorp">
+    <div class="corp">
+      <%= yield %>
+    </div>
+  </div>
+  <div id="Color5"><div id='footer'>
+    <div id='validator'>
+      &nbsp;<a href="http://validator.w3.org/check?uri=referer">
+        <img src="http://www.w3.org/Icons/valid-xhtml10-blue" height="31" width="88"  alt="Valid XHTML" />
+      </a>
+      &nbsp;&nbsp;&nbsp;<a href='http://jigsaw.w3.org/css-validator/check/referer'>
+        <img src="http://jigsaw.w3.org/css-validator/images/vcss-blue" height="31" width="88"  alt="Valid CSS" />
+      </a>
+    </div>
+    <span id='txtfooter'>Jason JAMET © 2015</span></div>
+  </div>
+</body>
+</html>

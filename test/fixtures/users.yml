@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  mail: MyString
+  date_of_birth: 1991-09-23
+  actual_weight: 1
+  ideal_weight: 1
+  size: 1
+  in_diet: false
+  like_diet: false
+  cv: MyString
+
+two:
+  name:
+  mail:
+  date_of_birth:
+  actual_weight:
+  ideal_weight:
+  size:
+  in_diet:
+  like_diet:
+  cv:

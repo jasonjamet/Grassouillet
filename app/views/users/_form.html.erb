@@ -1,0 +1,288 @@
+
+<%= form_for @user, authenticity_token: false, enforce_utf8: false do |f| %>
+  <div>
+    <input name="utf8" type="hidden" value="&#x2713;" />
+    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>" />
+  </div>
+  <% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@user.errors.count, "erreur") %> trouvées:</h2>
+
+    <ul>
+      <% @user.errors.messages.each do |msgf| %>
+        <% msgf[1].each do |msg| %>
+          <li>
+            <%= msg %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="field">
+    <label for="user_name">Nom</label><br/>
+    <%= f.text_field :name,  :onblur=>"controlName();" %>
+  </div>
+  <div class="field">
+    <label for="user_mail">E-Mail</label><br/>
+    <%= f.text_field :mail, :onblur=>"controlMail();" %>
+  </div>
+  <div class="field">
+    <span>Date de naissance</span><br/>
+    <%= f.date_select :date_of_birth,
+                      :use_month_names => ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre','Decembre'],
+                      :order => [:day, :month, :year],
+                      :start_year => Date.today.year - 100,
+                      :end_year => Date.today.year - 1 %>
+
+  </div>
+  <div class="field">
+    <label for="user_actual_weight">Poids actuel</label><br/>
+    <%= f.text_field(:actual_weight, :onblur=>"controlAW();", :onchange=>"controlIW();") %>
+  </div>
+  <div class="field">
+    <label for="user_ideal_weight">Poids idéal</label><br/>
+    <%= f.text_field :ideal_weight,  :onblur=>"controlIW();" %>
+  </div>
+  <div class="field">
+    <label for="user_size">Taille</label><br/>
+    <%= f.text_field :size, :onblur=>"controlSize();" %>
+  </div>
+  <div class="field" id ="id">
+    <%= "Faites-vous actuellement un régime?" %><br />
+    <label for="user_in_diet_true">Oui</label>
+    <%= f.radio_button :in_diet, true, :onchange => "controlID();" %>
+    <label for="user_in_diet_false">Non</label>
+    <%= f.radio_button :in_diet, false, :onchange => "controlID();" %>
+  </div>
+  <div class="field" id ="ld">
+    <%= "Voulez-vous faire un régime?" %><br />
+    <label for="user_like_diet_true">Oui</label>
+    <%= f.radio_button :like_diet, true, :onchange => "controlLD();" %>
+    <label for="user_like_diet_false">Non</label>
+    <%= f.radio_button :like_diet, false, :onchange => "controlLD();" %>
+  </div>
+  <div class="field">
+    <%= f.file_field :cv %>
+    <% if @user.cv_url %>
+    <label for="user_remove_cv">Supprimer cv</label>
+    <%= f.check_box :remove_cv %>
+    <% end %>
+  </div>
+  <% if  !@user.persisted? %>
+    <div class="actions">
+      <button  onclick="fullControl();" type="button" name="button">Créer utilisateur</button>
+    </div>
+  <% else %>
+    <div class="actions">
+      <button  onclick="fullControl();" type="button" name="button">Mettre à jour</button>
+    </div>
+  <% end %>
+<%end%>
+
+<script type="text/javascript" >
+  //<![CDATA[
+
+
+
+
+  function controlName() {
+
+    if(document.getElementById('user_name').value!=''){
+      document.getElementById("user_name").style.boxShadow = "0px 0px 20px green";
+      return 1;
+
+    }
+    else{
+      document.getElementById("user_name").style.boxShadow = "0px 0px 20px red";
+      return 0;
+
+    }
+  }
+  function controlMail() {
+    if(document.getElementById('user_mail').value!=''){
+      var reg=new RegExp("^[a-zA-Z0-9\-_]+[a-zA-Z0-9\.\-_]*@[a-zA-Z0-9\-_]+\.[a-zA-Z\.\-_]{1,}[a-zA-Z\-_]+","i");
+      if(reg.test([document.getElementById('user_mail').value])){
+        document.getElementById("user_mail").style.boxShadow = "0px 0px 20px green";
+        return 1;
+      }
+      else{
+        document.getElementById("user_mail").style.boxShadow = "0px 0px 20px red";
+        return 0;
+      }
+    }
+    else{
+      document.getElementById("user_mail").style.boxShadow = "0px 0px 20px red";
+      return 0;
+    }
+  }
+  function controlAW() {
+    if(document.getElementById('user_actual_weight').value!=''){
+      var reg=new RegExp("^[0-9]+$","i");
+      if(reg.test([document.getElementById('user_actual_weight').value])){
+        if(document.getElementById("user_actual_weight").value<600) {
+          if(document.getElementById("user_actual_weight").value>0) {
+            document.getElementById("user_actual_weight").style.boxShadow = "0px 0px 20px green";
+            return 1;
+          }
+          else{
+            document.getElementById("user_actual_weight").style.boxShadow = "0px 0px 20px red";
+            return 0;
+          }
+        }
+        else{
+          document.getElementById("user_actual_weight").style.boxShadow = "0px 0px 20px red";
+          return 0;
+        }
+
+
+      }
+      else{
+        document.getElementById("user_actual_weight").style.boxShadow = "0px 0px 20px red";
+        return 0;
+      }
+    }
+    else{
+      document.getElementById("user_actual_weight").style.boxShadow = "0px 0px 20px red";
+      return 0;
+    }
+  }
+  function controlIW() {
+    if(document.getElementById('user_ideal_weight').value!=''){
+      var reg=new RegExp("^[0-9]+$","i");
+      if(reg.test([document.getElementById('user_ideal_weight').value])){
+        if(document.getElementById('user_actual_weight').value!='' && reg.test([document.getElementById('user_actual_weight').value])) {
+          if((document.getElementById("user_ideal_weight").value)<(document.getElementById('user_actual_weight').value)) {
+            if(document.getElementById("user_ideal_weight").value>0) {
+              document.getElementById("user_ideal_weight").style.boxShadow = "0px 0px 20px green";
+              return 1;
+            }
+            else{
+              document.getElementById("user_ideal_weight").style.boxShadow = "0px 0px 20px red";
+              return 0;
+            }
+          }
+          else{
+            document.getElementById("user_ideal_weight").style.boxShadow = "0px 0px 20px red";
+            return 0;
+
+          }
+        }
+        else {
+          document.getElementById("user_ideal_weight").style.boxShadow = "0px 0px 20px red";
+          return 0;
+        }
+
+
+
+      }
+      else{
+        document.getElementById("user_ideal_weight").style.boxShadow = "0px 0px 20px red";
+        return 0;
+      }
+    }
+    else{
+      document.getElementById("user_ideal_weight").style.boxShadow = "0px 0px 20px red";
+      return 0;
+    }
+  }
+  function controlSize() {
+    if(document.getElementById('user_size').value!=''){
+      var reg=new RegExp("^[0-9]+$","i");
+      if(reg.test([document.getElementById('user_size').value])){
+        if(document.getElementById("user_size").value<300) {
+          if(document.getElementById("user_size").value>0) {
+            document.getElementById("user_size").style.boxShadow = "0px 0px 20px green";
+            return 1;
+          }
+          else{
+            document.getElementById("user_size").style.boxShadow = "0px 0px 20px red";
+            return 0;
+          }
+        }
+        else{
+          document.getElementById("user_size").style.boxShadow = "0px 0px 20px red";
+          return 0;
+        }
+
+
+
+      }
+      else{
+        document.getElementById("user_size").style.boxShadow = "0px 0px 20px red";
+        return 0;
+      }
+    }
+    else{
+      document.getElementById("user_size").style.boxShadow = "0px 0px 20px red";
+      return 0;
+
+    }
+  }
+
+
+
+
+  function controlID() {
+    if (document.getElementById('user_in_diet_true').checked || document.getElementById('user_in_diet_false').checked ) {
+      document.getElementById("user_in_diet_true").style.boxShadow = "0px 0px 20px green";
+      document.getElementById("user_in_diet_false").style.boxShadow = "0px 0px 20px green";
+      if(document.getElementById('user_in_diet_true').checked){
+        document.getElementById("ld").style.visibility='hidden';
+        document.getElementById("user_like_diet_false").checked = true;
+
+      }
+      else {
+        document.getElementById("ld").style.visibility='visible';
+
+      }
+      return 1;
+    }
+    else {
+      document.getElementById("user_in_diet_true").style.boxShadow = "0px 0px 20px red";
+      document.getElementById("user_in_diet_false").style.boxShadow = "0px 0px 20px red";
+      return 0;
+    }
+
+  }
+  function controlLD() {
+    if (document.getElementById('user_like_diet_true').checked || document.getElementById('user_like_diet_false').checked ) {
+      document.getElementById("user_like_diet_true").style.boxShadow = "0px 0px 20px green";
+      document.getElementById("user_like_diet_false").style.boxShadow = "0px 0px 20px green";
+
+      if(document.getElementById('user_like_diet_true').checked){
+        document.getElementById("user_in_diet_false").checked = true;
+        document.getElementById("user_in_diet_true").style.boxShadow = "0px 0px 20px green";
+        document.getElementById("user_in_diet_false").style.boxShadow = "0px 0px 20px green";
+
+      }
+
+
+      return 1;
+    }
+    else {
+      document.getElementById("user_like_diet_true").style.boxShadow = "0px 0px 20px red";
+      document.getElementById("user_like_diet_false").style.boxShadow = "0px 0px 20px red";
+      return 0;
+    }
+  }
+
+  function fullControl() {
+
+    //if(controlName()==1 && controlMail()==1 && controlAW()==1 && controlIW()==1 && controlSize()==1 && controlID()==1 && controlLD()==1) {
+      document.forms[0].submit();
+    //}
+
+
+  }
+
+
+
+  (function init() {
+    fullcontrol();
+
+  }
+  )()
+  //]]>
+</script>
