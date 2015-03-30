@@ -15,8 +15,6 @@ gem 'sass-rails', '~> 5.0'
 
 gem 'magic_encoding'
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

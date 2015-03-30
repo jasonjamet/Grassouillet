@@ -22,7 +22,7 @@
         <td><%= user.name %></td>
         <td><%= user.mail %></td>
         <td><%= link_to 'Détails', user %></td>
-        <td><%= link_to 'Edition', edit_user_path(user) %></td>
+        <!-- <td><%= link_to 'Edition', edit_user_path(user) %></td> -->
         <td><%= link_to "Supprimer", "users/"+user.id.to_s+"/destroy" %></td>
       </tr>
       <% end %>

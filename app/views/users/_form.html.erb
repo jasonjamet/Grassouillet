@@ -38,15 +38,15 @@
 
   </div>
   <div class="field">
-    <label for="user_actual_weight">Poids actuel</label><br/>
+    <label for="user_actual_weight">Poids actuel (kg)</label><br/>
     <%= f.text_field(:actual_weight, :onblur=>"controlAW();", :onchange=>"controlIW();") %>
   </div>
   <div class="field">
-    <label for="user_ideal_weight">Poids idéal</label><br/>
+    <label for="user_ideal_weight">Poids idéal (kg)</label><br/>
     <%= f.text_field :ideal_weight,  :onblur=>"controlIW();" %>
   </div>
   <div class="field">
-    <label for="user_size">Taille</label><br/>
+    <label for="user_size">Taille (cm)</label><br/>
     <%= f.text_field :size, :onblur=>"controlSize();" %>
   </div>
   <div class="field" id ="id">
